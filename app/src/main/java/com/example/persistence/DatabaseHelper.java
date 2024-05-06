@@ -14,7 +14,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
-    public long addRecord(String title, String artist, int year){
+    public long addRecord(String title, String artist, String year){
         database = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(DatabaseTables.Record.COLUMN_NAME_TITLE, title);

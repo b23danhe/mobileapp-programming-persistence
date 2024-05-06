@@ -26,11 +26,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //nrInput = findViewById(R.id.nrField);
-        titleInput = findViewById(R.id.titleField);
-        artistInput = findViewById(R.id.artistField);
-        yearInput = findViewById(R.id.yearField);
-
         readButton = findViewById(R.id.readButton);
         writeButton = findViewById(R.id.writeButton);
 
@@ -40,17 +35,42 @@ public class MainActivity extends AppCompatActivity {
         writeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                long inserting = databaseHelper.addRecord(
-                        titleInput.getText().toString(),
-                        artistInput.getText().toString(),
-                        yearInput.getText().length());
-                Toast.makeText(MainActivity.this, "Thank you for contributing, enjoy!", Toast.LENGTH_SHORT).show();
+
+                titleInput = findViewById(R.id.titleField);
+                artistInput = findViewById(R.id.artistField);
+                yearInput = findViewById(R.id.yearField);
+
+                String title = titleInput.getText().toString();
+                String artist = artistInput.getText().toString();
+                String year = yearInput.getText().toString();
+
+                databaseHelper.addRecord(title, artist, year);
             }
         });
 
         readButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
+            }
         });
 
+
+    }
+
+    private List<Record> getRecords() {
+        Cursor cursor = database.query(DatabaseTables.Record.TABLE_NAME, null, null, null, null, null, null);
+        List<Record> records = new ArrayList<>();
+        while (cursor.moveToNext()) {
+            Record record = new Record(
+                    cursor.getLong(cursor.getColumnIndexOrThrow(DatabaseTables.Record.COLUMN_NAME_ID)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(DatabaseTables.Record.COLUMN_NAME_TITLE)),
+                    cursor.getString(cursor.getColumnIndexOrThrow(DatabaseTables.Record.COLUMN_NAME_ARTIST)),
+                    cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseTables.Record.COLUMN_NAME_YEAR))
+            );
+            records.add(record);
+        }
+        cursor.close();
+        return records;
     }
 }
