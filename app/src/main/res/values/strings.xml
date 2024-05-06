@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Persistence</string>
+    <string name="titleField_hint">Album title</string>
+    <string name="artistField_hint">Artist/Band name</string>
+    <string name="yearField_hint">Release year</string>
+    <string name="nrField_hint">Id number</string>
+    <string name="writeButton">Write</string>
+    <string name="readButton">Read</string>
 </resources>

@@ -10,36 +10,29 @@
         android:id="@+id/titleField"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Title"
+        android:hint="@string/titleField_hint"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/artistField"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Artist/Band"
+        android:hint="@string/artistField_hint"
         app:layout_constraintTop_toBottomOf="@id/titleField"/>
 
     <EditText
         android:id="@+id/yearField"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Album Year"
+        android:hint="@string/yearField_hint"
         app:layout_constraintTop_toBottomOf="@id/artistField" />
-
-    <EditText
-        android:id="@+id/nrField"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Id number"
-        app:layout_constraintTop_toBottomOf="@id/yearField"/>
 
     <Button
         android:id="@+id/writeButton"
-        android:text="Write"
+        android:text="@string/writeButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/nrField"
+        app:layout_constraintTop_toBottomOf="@id/yearField"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
@@ -55,7 +48,7 @@
 
     <Button
         android:id="@+id/readButton"
-        android:text="Read"
+        android:text="@string/readButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/showText"
