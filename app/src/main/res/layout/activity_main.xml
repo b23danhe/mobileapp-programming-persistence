@@ -25,12 +25,31 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
+    <EditText
+        android:id="@+id/titleField"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/readButton" />
+
+    <EditText
+        android:id="@+id/artistField"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/titleField"/>
+
+    <EditText
+        android:id="@+id/yearField"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/artistField"
+        app:layout_constraintBottom_toTopOf="@id/writeButton"/>
+
     <Button
         android:id="@+id/writeButton"
         android:text="Write"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/readButton"
+        app:layout_constraintTop_toBottomOf="@id/yearField"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
