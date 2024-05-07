@@ -50,8 +50,8 @@ public class MainActivity extends AppCompatActivity {
                 StringBuilder recordList = new StringBuilder();
                 for (Record record : records) {
                     recordList.append(record.getId()).append(". ")
-                            .append(record.getTitle()).append(" - ")
-                            .append(record.getArtist()).append(" (")
+                            .append(record.getArtist()).append(" - ")
+                            .append(record.getTitle()).append(" (")
                             .append(record.getYear()).append(")\n");
                 }
                 listRecords.setText(recordList.toString());
@@ -67,17 +67,33 @@ public class MainActivity extends AppCompatActivity {
         artistInput = findViewById(R.id.artistField);
         yearInput = findViewById(R.id.yearField);
 
-        String title = titleInput.getText().toString();
-        String artist = artistInput.getText().toString();
-        int year = Integer.parseInt(yearInput.getText().toString());
+        String title = titleInput.getText().toString().trim();
+        String artist = artistInput.getText().toString().trim();
+        String yearString = yearInput.getText().toString().trim();
 
-        titleInput.setText("");
-        artistInput.setText("");
-        yearInput.setText("");
+        if (title.isEmpty() || artist.isEmpty() || yearString.isEmpty()) {
+            // Shows an error if any field is empty
+            Toast.makeText(MainActivity.this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-        databaseHelper.addRecord(title, artist, year);
+        try {
 
-        Toast.makeText(MainActivity.this, "Album added to database!", Toast.LENGTH_SHORT).show();
+            int year = Integer.parseInt(yearString);
+
+            // CLear fields in EditText
+            titleInput.setText("");
+            artistInput.setText("");
+            yearInput.setText("");
+
+            // Add records to database
+            databaseHelper.addRecord(title, artist, year);
+
+            Toast.makeText(MainActivity.this, "Album added to database!", Toast.LENGTH_SHORT).show();
+
+        } catch (NumberFormatException e) {
+            Toast.makeText(MainActivity.this, "Please enter a valid year", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private List<Record> getRecords() {
@@ -103,6 +119,7 @@ public class MainActivity extends AppCompatActivity {
                 cursor.close();
             }
         }
+        Toast.makeText(MainActivity.this, "Successfully read database!", Toast.LENGTH_SHORT).show();
         return records;
     }
 }

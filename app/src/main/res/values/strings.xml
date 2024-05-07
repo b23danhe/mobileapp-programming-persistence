@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Persistence</string>
+    <string name="app_name">Daniels vinylsamling</string>
     <string name="titleField_hint">Album title</string>
     <string name="artistField_hint">Artist/Band name</string>
     <string name="yearField_hint">Release year</string>
