@@ -10,9 +10,12 @@
         android:id="@+id/titleField"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:hint="@string/titleField_hint"
         android:importantForAutofill="no"
         android:inputType="text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
@@ -22,6 +25,8 @@
         android:hint="@string/artistField_hint"
         android:importantForAutofill="no"
         android:inputType="text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/titleField"/>
 
     <EditText
@@ -31,6 +36,8 @@
         android:hint="@string/yearField_hint"
         android:importantForAutofill="no"
         android:inputType="number"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/artistField" />
 
     <Button

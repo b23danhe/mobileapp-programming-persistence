@@ -1,42 +1,35 @@
 
 # Rapport
 
-**Skriv din rapport här!**
-
-_Du kan ta bort all text som finns sedan tidigare_.
-
-## Följande grundsyn gäller dugga-svar:
-
-- Ett kortfattat svar är att föredra. Svar som är längre än en sida text (skärmdumpar och programkod exkluderat) är onödigt långt.
-- Svaret skall ha minst en snutt programkod.
-- Svaret skall inkludera en kort övergripande förklarande text som redogör för vad respektive snutt programkod gör eller som svarar på annan teorifråga.
-- Svaret skall ha minst en skärmdump. Skärmdumpar skall illustrera exekvering av relevant programkod. Eventuell text i skärmdumpar måste vara läsbar.
-- I de fall detta efterfrågas, dela upp delar av ditt svar i för- och nackdelar. Dina för- respektive nackdelar skall vara i form av punktlistor med kortare stycken (3-4 meningar).
-
-Programkod ska se ut som exemplet nedan. Koden måste vara korrekt indenterad då den blir lättare att läsa vilket gör det lättare att hitta syntaktiska fel.
+En layout skapades med tre olika EditText som var och en ansvarar för inmatning av data i tre olika kolumner
+i databasen. Två knappar "Read" och "Write" läggs till, "Write" ska ansvara för att skriva de inmatade fälten
+till databasen och "Read" ansvarar för att läsa in databasen och skriva ut innehållet i databastabellerna 
+i en lista i en TextView.
 
 ```
-function errorCallback(error) {
-    switch(error.code) {
-        case error.PERMISSION_DENIED:
-            // Geolocation API stöds inte, gör något
-            break;
-        case error.POSITION_UNAVAILABLE:
-            // Misslyckat positionsanrop, gör något
-            break;
-        case error.UNKNOWN_ERROR:
-            // Okänt fel, gör något
-            break;
-    }
-}
+private EditText titleInput, artistInput, yearInput;
+private TextView listRecords;
+private Button readButton, writeButton;
+
+titleInput = findViewById(R.id.titleField);
+artistInput = findViewById(R.id.artistField);
+yearInput = findViewById(R.id.yearField);
+readButton = findViewById(R.id.readButton);
+writeButton = findViewById(R.id.writeButton);
 ```
 
-Bilder läggs i samma mapp som markdown-filen.
+För att skapa och hantera SQLLite databas så skapas två klasser. En klass som extendar SQLiteOpenHelper
+och som skapar och hanterar databasen (DatabaseHelper) och en klass som specar upp hur databasens tabeller 
+ska se ut (DatabaseTables).
 
-![](android.png)
+För att lägga till data i databasen så lagras det som skrivs in i varje EditText till variabler där
+används också trim() för att ta bort whitespace i början och slutet av det som skrivs in. Detta för att 
+underlätta en kontroll så att fälten inte är tomma eller innehåller endast mellanslag.
 
-Läs gärna:
+```
+String title = titleInput.getText().toString().trim();
+String artist = artistInput.getText().toString().trim();
+String yearString = yearInput.getText().toString().trim();
+```
 
-- Boulos, M.N.K., Warren, J., Gong, J. & Yue, P. (2010) Web GIS in practice VIII: HTML5 and the canvas element for interactive online mapping. International journal of health geographics 9, 14. Shin, Y. &
-- Wunsche, B.C. (2013) A smartphone-based golf simulation exercise game for supporting arthritis patients. 2013 28th International Conference of Image and Vision Computing New Zealand (IVCNZ), IEEE, pp. 459–464.
-- Wohlin, C., Runeson, P., Höst, M., Ohlsson, M.C., Regnell, B., Wesslén, A. (2012) Experimentation in Software Engineering, Berlin, Heidelberg: Springer Berlin Heidelberg.
+<img src="screenshot1.png" alt="Main Activity" style="width:300px;height:600px;"> <img src="screenshot2.png" alt="Second Activity" style="width:300px;height:600px;">

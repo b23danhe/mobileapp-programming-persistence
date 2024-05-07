@@ -24,17 +24,30 @@ public class MainActivity extends AppCompatActivity {
     private EditText titleInput, artistInput, yearInput;
     private TextView listRecords;
     private Button readButton, writeButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Set the layout id to each EditText
+        titleInput = findViewById(R.id.titleField);
+        artistInput = findViewById(R.id.artistField);
+        yearInput = findViewById(R.id.yearField);
+
+        // Set the layout id to the TextView
+        listRecords = findViewById(R.id.showRecords);
+
+        // Set the layout id to each Button
         readButton = findViewById(R.id.readButton);
         writeButton = findViewById(R.id.writeButton);
 
+        // Create instance of DatabaseHelper and declare database field and instantiate with
+        // the returned value from .getWritableDatabase()
         databaseHelper = new DatabaseHelper(this);
         database = databaseHelper.getWritableDatabase();
 
+        // addRecords() method is called when writeButton is pressed
         writeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -42,11 +55,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // Shows a list of the content in the database when readButton is pressed
         readButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listRecords = findViewById(R.id.showRecords);
+                // Add all records in the database to a list
                 List<Record> records = getRecords();
+
+                // Put each row in the table to a StringBuilder that later can be used
+                // with a toString() method to make the list visible in the TextView
                 StringBuilder recordList = new StringBuilder();
                 for (Record record : records) {
                     recordList.append(record.getId()).append(". ")
@@ -54,8 +71,9 @@ public class MainActivity extends AppCompatActivity {
                             .append(record.getTitle()).append(" (")
                             .append(record.getYear()).append(")\n");
                 }
-                listRecords.setText(recordList.toString());
 
+                // Shows the recordList in the TextView
+                listRecords.setText(recordList.toString());
             }
         });
 
@@ -63,9 +81,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void addRecords() {
-        titleInput = findViewById(R.id.titleField);
-        artistInput = findViewById(R.id.artistField);
-        yearInput = findViewById(R.id.yearField);
 
         String title = titleInput.getText().toString().trim();
         String artist = artistInput.getText().toString().trim();
