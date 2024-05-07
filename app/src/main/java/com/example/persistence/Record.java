@@ -7,10 +7,15 @@ public class Record {
     private String artist;
     private int year;
 
-    public Record (long id, String rTitle, String rArtist, int rYear){
+    public Record (long rid, String rTitle, String rArtist, int rYear){
+        id = rid;
         title = rTitle;
         artist = rArtist;
         year = Integer.parseInt(Integer.toString(rYear));
+    }
+
+    public long getId() {
+        return id;
     }
 
     public String getTitle() {

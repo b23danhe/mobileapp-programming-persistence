@@ -7,14 +7,14 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 1; // If this is incremented onUpgrade() will be executed
+    private static final int DATABASE_VERSION = 3; // If this is incremented onUpgrade() will be executed
     private static final String DATABASE_NAME = "Records.db"; // The file name of our database
     private SQLiteDatabase database;
     DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
-    public long addRecord(String title, String artist, String year){
+    public long addRecord(String title, String artist, int year){
         database = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(DatabaseTables.Record.COLUMN_NAME_TITLE, title);

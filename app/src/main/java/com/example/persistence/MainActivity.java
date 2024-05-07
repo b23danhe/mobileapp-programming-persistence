@@ -7,9 +7,11 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -20,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     private SQLiteDatabase database;
     private DatabaseHelper databaseHelper;
     private EditText titleInput, artistInput, yearInput;
+    private TextView listRecords;
     private Button readButton, writeButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,22 +38,23 @@ public class MainActivity extends AppCompatActivity {
         writeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                titleInput = findViewById(R.id.titleField);
-                artistInput = findViewById(R.id.artistField);
-                yearInput = findViewById(R.id.yearField);
-
-                String title = titleInput.getText().toString();
-                String artist = artistInput.getText().toString();
-                String year = yearInput.getText().toString();
-
-                databaseHelper.addRecord(title, artist, year);
+                addRecords();
             }
         });
 
         readButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                listRecords = findViewById(R.id.showRecords);
+                List<Record> records = getRecords();
+                StringBuilder recordList = new StringBuilder();
+                for (Record record : records) {
+                    recordList.append(record.getId()).append(". ")
+                            .append(record.getTitle()).append(" - ")
+                            .append(record.getArtist()).append(" (")
+                            .append(record.getYear()).append(")\n");
+                }
+                listRecords.setText(recordList.toString());
 
             }
         });
@@ -58,19 +62,47 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private void addRecords() {
+        titleInput = findViewById(R.id.titleField);
+        artistInput = findViewById(R.id.artistField);
+        yearInput = findViewById(R.id.yearField);
+
+        String title = titleInput.getText().toString();
+        String artist = artistInput.getText().toString();
+        int year = Integer.parseInt(yearInput.getText().toString());
+
+        titleInput.setText("");
+        artistInput.setText("");
+        yearInput.setText("");
+
+        databaseHelper.addRecord(title, artist, year);
+
+        Toast.makeText(MainActivity.this, "Album added to database!", Toast.LENGTH_SHORT).show();
+    }
+
     private List<Record> getRecords() {
-        Cursor cursor = database.query(DatabaseTables.Record.TABLE_NAME, null, null, null, null, null, null);
         List<Record> records = new ArrayList<>();
-        while (cursor.moveToNext()) {
-            Record record = new Record(
-                    cursor.getLong(cursor.getColumnIndexOrThrow(DatabaseTables.Record.COLUMN_NAME_ID)),
-                    cursor.getString(cursor.getColumnIndexOrThrow(DatabaseTables.Record.COLUMN_NAME_TITLE)),
-                    cursor.getString(cursor.getColumnIndexOrThrow(DatabaseTables.Record.COLUMN_NAME_ARTIST)),
-                    cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseTables.Record.COLUMN_NAME_YEAR))
-            );
-            records.add(record);
+        Cursor cursor = null;
+        try {
+            cursor = database.query(DatabaseTables.Record.TABLE_NAME, null, null, null, null, null, null);
+            if (cursor != null && cursor.moveToFirst()) {
+                do {
+                    Record record = new Record(
+                            cursor.getLong(cursor.getColumnIndexOrThrow(DatabaseTables.Record.COLUMN_NAME_ID)),
+                            cursor.getString(cursor.getColumnIndexOrThrow(DatabaseTables.Record.COLUMN_NAME_TITLE)),
+                            cursor.getString(cursor.getColumnIndexOrThrow(DatabaseTables.Record.COLUMN_NAME_ARTIST)),
+                            cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseTables.Record.COLUMN_NAME_YEAR))
+                    );
+                    records.add(record);
+                } while (cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            Log.d("Marazp", "Error reading records", e);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
         }
-        cursor.close();
         return records;
     }
 }
